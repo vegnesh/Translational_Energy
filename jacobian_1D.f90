@@ -8,7 +8,7 @@ Real FUNCTION jac1D(beta,c_initial,c_final,w)
    REAL,INTENT(in),optional,DIMENSION(3) :: w
    REAL,DIMENSION(3),INTENT(in) :: c_initial,c_final
    REAL,DIMENSION(3) :: wbin
-      REAL, DIMENSION(3) :: NUMER, DENO, DNUMER,DDENO
+   REAL, DIMENSION(3) :: NUMER, DENO, DNUMER,DDENO
    !REAL :: beta
    INTEGER :: i = 0
    if (present(w)) then 
@@ -18,7 +18,6 @@ Real FUNCTION jac1D(beta,c_initial,c_final,w)
     wbin(2) = 0.D0
     wbin(3) = 0.D0
    end if
-   print *,w, wbin, "c:" , c_initial
    jac1D = 0.D00
    !Term 4
    jac1D = jac1D - 1.5/(beta)**2 
@@ -73,12 +72,7 @@ Real FUNCTION jac1D(beta,c_initial,c_final,w)
                
     jac1D = jac1D +  (1/(sqrt(PI*beta)))*(DENO(i)*DNUMER(i)&
                  - NUMER(i)*DDENO(i))/(DENO(i)**2)
-  !  jac1D = jac1D +  (1/(sqrt(PI*beta)))*(DENO(i)&
-  ! 	*(-(c_initial(i)**3)*exp(-beta*c_initial(i)**2)&
-  ! 	+(c_final(i)**3)*exp(-beta*c_final(i)**2))&
-  !      - NUMER(i)*(1/(sqrt(PI*beta)))*(c_final(i)*exp(-beta*c_final(i)**2)&
-  ! 	- c_initial(i)*exp(-beta*c_initial(i)**2)))/(DENO(i)**2)
-
+  
    end do
   
 end FUNCTION jac1D

@@ -3,3 +3,5 @@
 *.out
 *.DAT
 *.dat
+*.abc
+DATA/
