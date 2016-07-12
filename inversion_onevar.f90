@@ -25,7 +25,7 @@ program onevar
   !IGUESS = 0.2
   do i=1,30
     call bin_energy(resultv,IGUESS,c_i,c_f,w)
-    jacval = jac1D(IGUESS,c_i,c_f,w)
+    jacval = jacenergy_beta(IGUESS,c_i,c_f,w)
     NGUESS = IGUESS - (resultv - energy)/jacval
     IGUESS = NGUESS;
     !print *, "True", beta, "ENERGY",ENERGY,"GUESS",IGUESS,"RESULT",RESULTv,"Jac", jacval
@@ -43,7 +43,7 @@ print *, "True", beta, "ENERGY",ENERGY,"GUESS",IGUESS,"RESULT",RESULTv,"Jac", ja
 !  read(*,*) c_f
 !  
 !   
-!    print *, "The value of the Jacobian  is " , jac1D(beta,c_i,c_f)
+!    print *, "The value of the Jacobian  is " , jacenergy_beta(beta,c_i,c_f)
 !    call bin_energy(resultv,beta,c_i,c_f)
 !    call bin_energy(energy,beta*1.000001,c_i,c_f)
 !    print *, "Numerical Jacobian" , (energy - resultv)/(0.000001*beta) 

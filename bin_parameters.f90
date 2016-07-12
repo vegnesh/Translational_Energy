@@ -53,8 +53,8 @@ end if
   
  call bin_velocity(tempvar,beta,c_initial,c_final,wbin)
 ! print *, "temp value" , tempvar
- energy_value = DOT_PRODUCT(wbin,wbin) + DOT_PRODUCT(wbin,tempvar-wbin) + 1.5/beta&
-	         +(1/sqrt(PI*beta))&
+ energy_value = DOT_PRODUCT(wbin,wbin) + DOT_PRODUCT(wbin,tempvar-wbin) + 1.5/beta + &
+                    (1/sqrt(PI*beta))&
 		   *(c_initial(1)*binexp(beta,c_initial(1),wbin(1))&
 		   - c_final(1)*binexp(beta,c_final(1),wbin(1)))/ &
 		   (binerf(beta,c_final(1),wbin(1))&

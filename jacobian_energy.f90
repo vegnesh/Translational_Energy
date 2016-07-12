@@ -1,6 +1,6 @@
 module jacobian
 CONTAINS
-Real FUNCTION jac1D(beta,c_initial,c_final,w)
+Real FUNCTION jacenergy_beta(beta,c_initial,c_final,w)
    USE global_parameters, only : PI,K_B
    USE basic_functions
    IMPLICIT NONE
@@ -18,9 +18,9 @@ Real FUNCTION jac1D(beta,c_initial,c_final,w)
     wbin(2) = 0.D0
     wbin(3) = 0.D0
    end if
-   jac1D = 0.D00
+   jacenergy_beta = 0.D00
    !Term 4
-   jac1D = jac1D - 1.5/(beta)**2 
+   jacenergy_beta = jacenergy_beta - 1.5/(beta)**2 
    
    !Term 2
    do i=1,3
@@ -38,9 +38,9 @@ Real FUNCTION jac1D(beta,c_initial,c_final,w)
                 binexp(beta,c_initial(i),wbin(i))&
    	         +((c_final(i)-wbin(i))**2)*&
                 binexp(beta,c_final(i),wbin(i)))
-     jac1D = jac1D - (1/(sqrt(PI*beta)*2*beta))*&
+     jacenergy_beta = jacenergy_beta - (1/(sqrt(PI*beta)*2*beta))*&
              (NUMER(i)/DENO(i))
-     jac1D = jac1D +  (1/(sqrt(PI*beta)))*(DENO(i)*DNUMER(i)&
+     jacenergy_beta = jacenergy_beta +  (1/(sqrt(PI*beta)))*(DENO(i)*DNUMER(i)&
                  - NUMER(i)*DDENO(i))/(DENO(i)**2)
 
 
@@ -48,7 +48,7 @@ Real FUNCTION jac1D(beta,c_initial,c_final,w)
    
    !Term 3 first part
    do i=1,3
-     jac1D = jac1D -  (1/(sqrt(PI*beta)*2*beta))*&
+     jacenergy_beta = jacenergy_beta -  (1/(sqrt(PI*beta)*2*beta))*&
      (c_initial(i)*binexp(beta,c_initial(i),wbin(i))&
      - c_final(i)*binexp(beta,c_final(i),wbin(i)))/ &
      (binerf(beta,c_final(i),wbin(i))&
@@ -70,12 +70,63 @@ Real FUNCTION jac1D(beta,c_initial,c_final,w)
         ((c_final(i)-wbin(i))*binexp(beta,c_final(i),wbin(i))&
    	- (c_initial(i)-wbin(i))*binexp(beta,c_initial(i),wbin(i)))
                
-    jac1D = jac1D +  (1/(sqrt(PI*beta)))*(DENO(i)*DNUMER(i)&
+    jacenergy_beta = jacenergy_beta +  (1/(sqrt(PI*beta)))*(DENO(i)*DNUMER(i)&
                  - NUMER(i)*DDENO(i))/(DENO(i)**2)
   
    end do
   
-end FUNCTION jac1D
+end FUNCTION jacenergy_beta
+
+Real function jacenergy_w(beta,c_initial,c_final,w) 
+   USE global_parameters, only : PI,K_B
+   USE basic_functions
+   IMPLICIT NONE
+   REAL,INTENT(in) :: beta
+   REAL,INTENT(in) :: w
+   REAL,INTENT(in) :: c_initial,c_final
+   REAL :: NUMER, DENO, DNUMER,DDENO
+   !REAL :: beta
+   INTEGER :: i = 0
+   jacenergy_w = 0.D0
+   ! Term 1
+   jacenergy_w = jacenergy_w + 2.D0 * w
+
+   ! Term 2 
+   NUMER = (binexp(beta,c_initial,w)&
+   	   -binexp(beta,c_final,w))
+
+   DENO  =  (binerf(beta,c_final,w)&
+            - binerf(beta,c_initial,w))
+
+   jacenergy_w = jacenergy_w + (1/sqrt(PI*beta))*NUMER/DENO
+
+   DDENO = -2.0*sqrt(beta/PI) * (binexp(beta,c_final,w)&
+           - binexp(beta,c_initial,w))
+   DNUMER = 2*beta*((c_initial-w)*binexp(beta,c_initial,w)&
+            - (c_final-w)*binexp(beta,c_final,w))
+   
+   jacenergy_w =jacenergy_w +  w*(1/sqrt(PI*beta))&
+                *(DNUMER*DENO - DDENO*NUMER)/DENO**2
+
+   ! Term 3
+   NUMER = (-c_final*binexp(beta,c_final,w)&
+   	   +c_initial*binexp(beta,c_initial,w))
+
+   DENO  =  (binerf(beta,c_final,w)&
+            - binerf(beta,c_initial,w))
+
+   DDENO = -2.0*sqrt(beta/PI) * (binexp(beta,c_final,w)&
+           - binexp(beta,c_initial,w))
+
+   DNUMER =  2*beta*((c_initial-w)*c_initial*binexp(beta,c_initial,w)&
+            - (c_final-w)*c_final*binexp(beta,c_final,w))
+
+   jacenergy_w = jacenergy_w + (1/sqrt(PI*beta))&
+                *(DNUMER*DENO - DDENO* NUMER)/DENO**2
+
+    
+end function jacenergy_w
+        
 end module jacobian
 
 !   jac1D = jac1D - (1/(sqrt(PI*beta)*2*beta))*&
