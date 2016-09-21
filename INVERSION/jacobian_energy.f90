@@ -20,7 +20,7 @@ Real FUNCTION jacenergy_beta(beta,c_initial,c_final,w)
    end if
    jacenergy_beta = 0.D00
    !Term 4
-   jacenergy_beta = jacenergy_beta - 1.5/(beta)**2 
+   jacenergy_beta = jacenergy_beta - 1.5D0/(beta)**2 
    
    !Term 2
    do i=1,3
@@ -30,7 +30,7 @@ Real FUNCTION jacenergy_beta(beta,c_initial,c_final,w)
      DENO(i)  = (binerf(beta,c_final(i),wbin(i)) -&
                 binerf(beta,c_initial(i),wbin(i)))
 
-     DDENO(i) = (1/(sqrt(PI*beta))) *&
+     DDENO(i) = (1.D0/(sqrt(PI*beta))) *&
                ((c_final(i)-wbin(i))*binexp(beta,c_final(i),wbin(i))&
    	- (c_initial(i)-wbin(i))*binexp(beta,c_initial(i),wbin(i)))
 
@@ -38,9 +38,9 @@ Real FUNCTION jacenergy_beta(beta,c_initial,c_final,w)
                 binexp(beta,c_initial(i),wbin(i))&
    	         +((c_final(i)-wbin(i))**2)*&
                 binexp(beta,c_final(i),wbin(i)))
-     jacenergy_beta = jacenergy_beta - (1/(sqrt(PI*beta)*2*beta))*&
+     jacenergy_beta = jacenergy_beta - (1.D0/(sqrt(PI*beta)*2*beta))*&
              (NUMER(i)/DENO(i))
-     jacenergy_beta = jacenergy_beta +  (1/(sqrt(PI*beta)))*(DENO(i)*DNUMER(i)&
+     jacenergy_beta = jacenergy_beta +  (1.D0/(sqrt(PI*beta)))*(DENO(i)*DNUMER(i)&
                  - NUMER(i)*DDENO(i))/(DENO(i)**2)
 
 
@@ -48,7 +48,7 @@ Real FUNCTION jacenergy_beta(beta,c_initial,c_final,w)
    
    !Term 3 first part
    do i=1,3
-     jacenergy_beta = jacenergy_beta -  (1/(sqrt(PI*beta)*2*beta))*&
+     jacenergy_beta = jacenergy_beta -  (1.D0/(sqrt(PI*beta)*2*beta))*&
      (c_initial(i)*binexp(beta,c_initial(i),wbin(i))&
      - c_final(i)*binexp(beta,c_final(i),wbin(i)))/ &
      (binerf(beta,c_final(i),wbin(i))&
@@ -66,11 +66,11 @@ Real FUNCTION jacenergy_beta(beta,c_initial,c_final,w)
                 binexp(beta,c_initial(i),wbin(i))&
    	         +(c_final(i)*(c_final(i)-wbin(i))**2)*&
                 binexp(beta,c_final(i),wbin(i))
-    DDENO(i)  = (1/(sqrt(PI*beta))) *&
+    DDENO(i)  = (1.D0/(sqrt(PI*beta))) *&
         ((c_final(i)-wbin(i))*binexp(beta,c_final(i),wbin(i))&
    	- (c_initial(i)-wbin(i))*binexp(beta,c_initial(i),wbin(i)))
                
-    jacenergy_beta = jacenergy_beta +  (1/(sqrt(PI*beta)))*(DENO(i)*DNUMER(i)&
+    jacenergy_beta = jacenergy_beta +  (1.D0/(sqrt(PI*beta)))*(DENO(i)*DNUMER(i)&
                  - NUMER(i)*DDENO(i))/(DENO(i)**2)
   
    end do
@@ -98,14 +98,14 @@ Real function jacenergy_w(beta,c_initial,c_final,w)
    DENO  =  (binerf(beta,c_final,w)&
             - binerf(beta,c_initial,w))
 
-   jacenergy_w = jacenergy_w + (1/sqrt(PI*beta))*NUMER/DENO
+   jacenergy_w = jacenergy_w + (1.D0/sqrt(PI*beta))*NUMER/DENO
 
    DDENO = -2.0*sqrt(beta/PI) * (binexp(beta,c_final,w)&
            - binexp(beta,c_initial,w))
    DNUMER = 2*beta*((c_initial-w)*binexp(beta,c_initial,w)&
             - (c_final-w)*binexp(beta,c_final,w))
    
-   jacenergy_w =jacenergy_w +  w*(1/sqrt(PI*beta))&
+   jacenergy_w =jacenergy_w +  w*(1.D0/sqrt(PI*beta))&
                 *(DNUMER*DENO - DDENO*NUMER)/DENO**2
 
    ! Term 3
@@ -121,7 +121,7 @@ Real function jacenergy_w(beta,c_initial,c_final,w)
    DNUMER =  2*beta*((c_initial-w)*c_initial*binexp(beta,c_initial,w)&
             - (c_final-w)*c_final*binexp(beta,c_final,w))
 
-   jacenergy_w = jacenergy_w + (1/sqrt(PI*beta))&
+   jacenergy_w = jacenergy_w + (1.D0/sqrt(PI*beta))&
                 *(DNUMER*DENO - DDENO* NUMER)/DENO**2
 
     
@@ -129,7 +129,7 @@ end function jacenergy_w
         
 end module jacobian
 
-!   jac1D = jac1D - (1/(sqrt(PI*beta)*2*beta))*&
+!   jac1D = jac1D - (1.D0/(sqrt(PI*beta)*2*beta))*&
 !   		 ((c_initial(1)*binexp(beta,c_initial(1),wbin(1))&
 !   		   - c_final(1)*binexp(beta,c_final(1),wbin(1)))/ &
 !   		   (binerf(beta,c_final(1),wbin(1))&
@@ -150,10 +150,10 @@ end module jacobian
 !   
 !   
 !   
-!   jac1D = jac1D + (1/(sqrt(PI*beta)))*(DENO(i)&
+!   jac1D = jac1D + (1.D0/(sqrt(PI*beta)))*(DENO(i)&
 !   	*(-(c_initial(i)**3)*exp(-beta*c_initial(i)**2)&
 !   	+(c_final(i)**3)*exp(-beta*c_final(i)**2))&
-!   	 - NUMER(i)*(1/(sqrt(PI*beta)))*(c_final(i)*exp(-beta*c_final(i)**2)&
+!   	 - NUMER(i)*(1.D0/(sqrt(PI*beta)))*(c_final(i)*exp(-beta*c_final(i)**2)&
 !   	- c_initial(i)*exp(-beta*c_initial(i)**2)))/(DENO(i)**2)
 !   end do
 
@@ -163,16 +163,16 @@ end module jacobian
 !                binexp(beta,c_initial(i),wbin(i))&
 !   	         +(c_final(i)*(c_final(i)-wbin(i))**2)*&
 !                binexp(beta,c_final(i),wbin(i))
-!    DDENO(i)  = (1/(sqrt(PI*beta))) *&
+!    DDENO(i)  = (1.D0/(sqrt(PI*beta))) *&
 !        ((c_final(i)-wbin(i))*binexp(beta,c_final(i),wbin(i))&
 !   	- (c_initial(i)-wbin(i))*binexp(beta,c_initial(i),wbin(i)))
                 
-    !jac1D = jac1D +  (1/(sqrt(PI*beta)))*(DENO(i)*DNUMER(i)&
+    !jac1D = jac1D +  (1.D0/(sqrt(PI*beta)))*(DENO(i)*DNUMER(i)&
     !              - NUMER(i)*DDENO(i))/(DENO(i)**2)
-!    jac1D = jac1D +  (1/(sqrt(PI*beta)))*(DENO(i)&
+!    jac1D = jac1D +  (1.D0/(sqrt(PI*beta)))*(DENO(i)&
 !   	*(-(c_initial(i)**3)*exp(-beta*c_initial(i)**2)&
 !   	+(c_final(i)**3)*exp(-beta*c_final(i)**2))&
-!        - NUMER(i)*(1/(sqrt(PI*beta)))*(c_final(i)*exp(-beta*c_final(i)**2)&
+!        - NUMER(i)*(1.D0/(sqrt(PI*beta)))*(c_final(i)*exp(-beta*c_final(i)**2)&
 !   	- c_initial(i)*exp(-beta*c_initial(i)**2)))/(DENO(i)**2)
 
 ! 
