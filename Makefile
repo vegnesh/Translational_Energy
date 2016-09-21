@@ -6,14 +6,14 @@ OBJ=$(DIR)/objects
 FC = gfortran
 LD = gfortran
 
-FFLAGS= -g -O3  -fdefault-real-8 
-LDFLAGS= -g -O3 -fdefault-real-8 
+FFLAGS= -g  -fdefault-real-8 
+LDFLAGS= -g  -fdefault-real-8 
 
-SRCF90=  special_functions.f90 global_parameters.f90 bin_basic.f90   bin_parameters.f90 jacobian_energy.f90 jacobian_velocity.f90 test.f90
+SRCF90=  special_functions.f90 global_parameters.f90 bin_basic.f90   bin_parameters.f90 jacobian_energy.f90  datagenerator.f90
 OBJF90=$(SRCF90:.f90=.obj)
 OBJS=$(patsubst %,$(OBJ)/%,$(OBJF90))
 
-EXEC=out_test.out
+EXEC=out_data.out
 
 default: mytest
 

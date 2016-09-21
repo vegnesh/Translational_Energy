@@ -46,7 +46,7 @@ program datagen
     if (i==2) c_f = 0*(-cilimit)
 
     do j = 1,i
-    !  print *,"NBINS:",i,"BIN:",j,"C_i:",c_i,"c_f:",c_f   
+      print *,"NBINS:",i,"BIN:",j,"C_i:",c_i,"c_f:",c_f   
 !********************File handling********************************** 
       write(ichars,'(i2)') i
       write(jchar,'(i2)') j
